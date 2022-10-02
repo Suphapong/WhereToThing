@@ -17,6 +17,8 @@ import NintyDaysScreen from './components/screens/NintyDaysScreen';
 import NotFound from './components/screens/pathFail';
 
 import TestScreen from './components/screens/TestScreen';
+import MapScreen from './components/maps/MapScreen';
+
 
 const App = () => {
   return (
@@ -35,7 +37,9 @@ const App = () => {
           <Route exact path="/captcha" element={<CaptchaScreen/>}/>
 
           <Route path="*" element={<NotFound />}/>
+
           <Route exact path="/p" element={<TestScreen/>}/>
+          <Route exact path="/map" element={<MapScreen/>}/>
 
 
         </Routes>
