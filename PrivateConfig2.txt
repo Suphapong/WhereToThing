@@ -1,0 +1,17 @@
+SECURITY-WEB-APPLICATION_V2
+
+Site key
+6Lc8qAciAAAAAEgzOh704ayrbi1SoDR2GEEDh89l
+
+Secret Key
+6Lc8qAciAAAAAHVDdJEp09eJGNi0o89sD1bo-4H_
+
+npm install react-google-invisible-recaptcha --save
+
+let indexPass =  dictPass.indexOf(password)
+      console.log("Index OF :",i);
+      if (condition) {
+        
+      } else {
+        
+      }

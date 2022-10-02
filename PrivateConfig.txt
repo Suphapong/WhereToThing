@@ -1,0 +1,12 @@
+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
+
+comscrt.webapp22
+scrt20222151
+
+http://localhost:5000/api/auth/resetpassword/6901c8b992f05bb28a516e52837bbf505cb436e2
+
+ac0b0c2ebff55cb46e9f1c906a4ea635378bf72d2f7ab52fdf9f50e8d9a7c520
+6c6b0a414a9e0bebd1d95d41b91d149729559519
+
+resetPasswordToken
+resetPasswordToken

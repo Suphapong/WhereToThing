@@ -1,0 +1,82 @@
+:root{
+  --speed-transition:10s;
+}
+
+
+.login-labelMd{
+  text-align: center;
+  background:linear-gradient(-90deg, #2f3e46, #ffffff);
+  background-size: 400%;
+  font-weight: 600;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  /* animation: change var(--speed-transition) linear infinite; */
+}
+
+.login-labelSm{
+  color: #fff;
+  /* animation: change var(--speed-transition) linear infinite; */
+}
+
+.login-screen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-90deg, #cad2c5, #84a98c, #52796f, #354f52,#2f3e46);
+    background-size: 400% 400%;
+    position: relative;
+    animation:  change var(--speed-transition) ease-in-out infinite; 
+  }
+  
+  .login-screen__form {
+    border-radius: 2em;
+    width: 380px;
+    padding: 1.5rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    background: linear-gradient(-90deg, #cad2c5, #84a98c, #52796f, #2f3e46);
+    /* background: linear-gradient(90deg, #CDB4DB, #FFC8DD, #FFAFCC, #BDE0FE,#A2D2FF); */
+    
+    background-size: 400% 400%;
+    position: relative;
+    /* animation:  change var(--speed-transition) ease-in-out infinite;  */
+  }
+  
+  .login-screen__title {
+    text-align: center;
+    margin-bottom: 1rem;
+  
+  }
+  
+  .login-screen__forgotpassword {
+    font-size: 0.7rem;
+
+  }
+  
+  .login-screen__subtext {
+    font-size: 0.7rem;
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .login-screen__bt {
+    background: linear-gradient(-90deg, #cad2c5, #84a98c, #52796f, #354f52);
+    background-size: 400% 400%;
+    position: relative;
+    animation:  change var(--speed-transition) ease-in-out infinite; 
+  }
+
+
+  @keyframes change {
+    0%{
+      background-position: 0 50%;
+    }
+    50%{
+      background-position: 100% 50%;
+    }
+    100%{
+      background-position: 0 50%;
+    }
+
+  }

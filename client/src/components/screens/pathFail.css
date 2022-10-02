@@ -1,0 +1,29 @@
+.middle-frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+  border-radius: 5em;
+  padding: 1em;
+}
+
+.image-frame {
+  background: linear-gradient(90deg, #cad2c5, #84a98c, #52796f, #354f52);
+  background-size: 400% 400%;
+  position: relative;
+  animation:  change var(--speed-transition) ease-in-out infinite; 
+}
+  
+.pathFail-screen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-90deg, #cad2c5, #84a98c, #52796f, #354f52,#2f3e46);
+  background-size: 400% 400%;
+  position: relative;
+  animation:  change var(--speed-transition) ease-in-out infinite; 
+}

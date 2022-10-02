@@ -1,0 +1,84 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+    color: #000000;
+  }
+
+  .light-lb{
+    color: #cad2c5;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.7;
+    background: #eee;
+    color: #333;
+  }
+  
+  .form-group,
+  .form-group label,
+  .form-group input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group label {
+    font-size: 0.8rem;
+    color:#2f3e46 ;
+  }
+  
+  .form-group input {
+    padding: 10px 20px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background-color: #eee;
+    outline-width: 0;
+    font-size: 1rem;
+  }
+  
+  .form-group input:focus {
+    border-bottom: 3px solid rgb(91, 158, 194);
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+  }
+  
+  .btn:hover {
+    opacity: 0.8;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(-90deg, #cad2c5, #84a98c, #52796f, #354f52);
+    background-size: 400% 400%;
+    position: relative;
+    animation:  change var(--speed-transition) ease-in-out infinite; 
+  }
+  
+  .error-message {
+    width: 100%;
+    display: inline-block;
+    padding: 5px;
+    background: #ff7477;
+    color: #fff;
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+  
+  .success-message {
+    width: 100%;
+    display: inline-block;
+    padding: 5px;
+    background: green;
+    color: #fff;
+    text-align: center;
+    margin: 0.5rem 0;
+  }
