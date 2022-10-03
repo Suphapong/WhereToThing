@@ -18,6 +18,7 @@
   animation:  change var(--speed-transition) ease-in-out infinite; 
 }
 
+
 .accordion-header{
   color: white; 
   font-size: large;
@@ -28,26 +29,24 @@
  
 }
 .accordion-button{
+  color: white; 
   background: linear-gradient(90deg,#52796f, #354f52);
   background-size: 400% 400%;
   position: relative;
   animation:  change var(--speed-transition) ease-in-out infinite; 
-  color: white;
-
 }
 .accordion-button:hover{
+  color: white; 
   background: linear-gradient(90deg,#52796f, #354f52);
   background-size: 400% 400%;
   position: relative;
   animation:  change var(--speed-transition) ease-in-out infinite; 
-  color: white;
-
 }
 
 .accordion-topic{
+  color: white; 
   background: linear-gradient(90deg,#52796f, #354f52);
   background-size: 400% 400%;
   position: relative;
   animation:  change var(--speed-transition) ease-in-out infinite; 
-  color: white;
 }
