@@ -7,7 +7,7 @@ import { GoogleMap, useJsApiLoader, MarkerF} from "@react-google-maps/api";
 import "../screens/DashboardScreen.css";
 import "./Maps.css";
 import {Navbar, Nav, Container, Table, Stack, NavDropdown, Modal, Button, Form, Alert} from 'react-bootstrap';
-import Report from "./Report";
+import BinManage from "./BinManage";
 import Notification from "./Notification";
 import * as BIN_DATA from "./binlocation.json"
 
@@ -15,27 +15,38 @@ import * as BIN_DATA from "./binlocation.json"
 const center = { lat:13.119869072706644, lng:100.92038463558079}
 
 const config = {
-  header: {
-    "Content-Type": "application/json",
-  },
-}
+    header: {
+      "Content-Type": "application/json",
+    },
+  };
 
-const MapScreen = () => {
+const AdminMapScreen = () => {
   const { isLoaded } = useJsApiLoader({
       googleMapsApiKey: "AIzaSyDFNTbKO8trQpy5lXrbPFug-c2BeIgB4h0",
   })
   const [map, setMap] = useState(/** @type google.maps.Map */ (null))
+  const [focus, setFocus] = useState(center);
 
   const [showModal, setShowModal] = useState(false);
+
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true)
-  const [binDataModal, setBinDataModal] = useState(
-  {
+
+  const [allBin, setAllBin] = useState(
+    {
     lat:0,
     long:0,
     type:"Blue_A",
     location:""
-  })
+    })
+ 
+  const [binDataModal, setBinDataModal] = useState(
+    {
+    lat:0,
+    long:0,
+    type:"Blue_A",
+    location:""
+    })
 
 
   const [showOffCanvasRight, setshowOffCanvasRight] = useState(false);
@@ -54,8 +65,6 @@ const MapScreen = () => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(false);
 
-  //console.log("MARK-BIN-DATA : ", markBin)
- // console.log("isLoaded",isLoaded);
   const fetchBinData = async () => {
     try {
       const { data } = await axios.get("/api/auth/getbin", config);
@@ -66,6 +75,7 @@ const MapScreen = () => {
       setError(error.response.data.error);
     }
   }
+  
 
   useEffect(() => {
     fetchBinData();
@@ -74,9 +84,9 @@ const MapScreen = () => {
   if (!isLoaded) {
     return (
       <div>Loading...</div>
-    )
-    
+    )  
   }
+  
 
   const handleBinModal = (bin) => {
     try {
@@ -88,10 +98,9 @@ const MapScreen = () => {
   }
   
   const MarkerItem = (props) => {
-    //console.log("Props : ",props.bin)
+    console.log("Props : ",parseFloat(props.bin.lat))
     return(
       <MarkerF
-        //onLoad={onLoad}
         position={{ lat:parseFloat(props.bin.lat), lng:parseFloat(props.bin.long)}}
         icon={{
             url: require(`./binicon/${props.bin.type}.ico`), scaledSize: {width: 32, height: 40},
@@ -114,24 +123,26 @@ const MapScreen = () => {
     )
   }
 
-  const sendSubmit = async () => {
+  const onClickDelete = (id) => {
     try {
-      await axios.post("/api/auth/addreport", {
-        type: binDataModal.type,
-        topic,
-        writer,
-        description,
-        location: binDataModal.location,
-        position: { lat: parseFloat(binDataModal.lat), lng: parseFloat(binDataModal.long)}
-      })
+      let ans = window.confirm("Are you sure to delete bin?")
+      if (ans) {
+        deleteBin(id)
+        fetchBinData()
+        handleCloseModal()
+      }
+    } catch (error) {
+      setError(error);
+    }
+  }
+
+  const deleteBin = async (id) => {
+    try {
+      await axios.post("/api/auth/deletebin",{id})
         .then(res => {
-           console.log(res)
-           setTopic("")
-           setWriter("")
-           setDescription("")
-           setShowModal(false)
-           alert("เเจ้งปัญหาได้สำเร็จ")
-            //navigate("/login")
+          console.log(res)
+          alert("ลบถังขยะสำเร็จ")
+          
         })
         .catch((error) => {
         console.log(error);
@@ -175,8 +186,8 @@ const MapScreen = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={()=>{sendSubmit()}}
-          ><i class="bi bi-send-fill text-white"></i>  Send</Button>
+          <Button variant="danger" onClick={()=>{onClickDelete()}}
+          ><i class="bi bi-send-fill text-white"></i></Button>
         </Modal.Footer>
       </Modal>
       )
@@ -198,25 +209,29 @@ const MapScreen = () => {
         <Modal.Body>
         <Form>
           <Form.Label htmlFor="topic" className='fw-bold'>เเจ้งปัญหาถังขยะใบนี้:</Form.Label><br/>
-          <Form.Label htmlFor="topic" className='fw-bold'>หัวข้อ:</Form.Label>
-          <Form.Control type="text" placeholder="หัวข้อ..." value={topic} onChange={(e)=>setTopic(e.target.value)} required/>
-          <Form.Label htmlFor="by" className='fw-bold'>โดย:</Form.Label>
-          <Form.Control type="text" placeholder="ชื่อเล่น..." value={writer} onChange={(e)=>setWriter(e.target.value)} required/>
-          <Form.Label htmlFor="description" className='fw-bold'>รายละอียด:</Form.Label>
-          <Form.Control as="textarea" rows={3} placeholder="อธิบายลายละเอียด..." value={description} onChange={(e)=>setDescription(e.target.value)} required/>
+          <Form.Label htmlFor="topic" className='fw-bold'>ประเภทถัง:</Form.Label>
+          <Form.Control type="text" placeholder="ประเภท..." value={binDataModal.type} disabled/>
+          <Form.Label htmlFor="schedule" className='fw-bold'>สถานที่:</Form.Label>
+          <Form.Control type="text" placeholder="@" value={binDataModal.location} disabled/>
+          <Form.Label htmlFor="schedule" className='fw-bold'>เวลาเก็บขยะ:</Form.Label>
+          <Form.Control type="text" placeholder="-" value={binDataModal.schedule} disabled/>
+          <Form.Label htmlFor="lat" className='fw-bold'>lat:</Form.Label>
+          <Form.Control type="text" placeholder="-" value={binDataModal.lat} disabled/>
+          <Form.Label htmlFor="lat" className='fw-bold'>long:</Form.Label>
+          <Form.Control type="text" placeholder="-" value={binDataModal.long} disabled/>
         </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="danger" onClick={()=>{onClickDelete(binDataModal._id)}}
+            ><i class="bi bi-trash-fill text-white"></i></Button>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={()=>{sendSubmit()}}
-          ><i class="bi bi-send-fill text-white"></i>  Send</Button>
         </Modal.Footer>
       </Modal>
 
-      <Notification show={showOffCanvasLeft} onHide={handleCloseOffCanvasLeft} callback={(e)=>onClickPanTo(e)}/>
-      <Report show={showOffCanvasRight} onHide={handleCloseOffCanvasRight}/>
+      <Notification show={showOffCanvasLeft} onHide={handleCloseOffCanvasLeft}  callback={(e)=>onClickPanTo(e)}/>
+      <BinManage show={showOffCanvasRight} onHide={handleCloseOffCanvasRight} callback={fetchBinData}/>
 
       <Navbar className="map-nav" collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
@@ -226,23 +241,29 @@ const MapScreen = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
             <Nav>
-              <Nav.Link></Nav.Link>
+              <Nav.Link href="/map" style={{color:'#fff',fontSize:'20px'}}><i class="bi bi-pin-map" style={{color:'#fff',fontSize:'30px'}}/>
+              &nbsp;</Nav.Link>&nbsp;&nbsp;&nbsp;
+
+              <Nav.Link href="/admin/status" style={{color:'#fff',fontSize:'20px'}}><i class="bi bi-person-video3" style={{color:'#fff',fontSize:'30px'}}/>
+              &nbsp;</Nav.Link>&nbsp;&nbsp;&nbsp;
+
               <Nav.Link href="https://forms.gle/LFg7tmSPinQ7xXCF7" style={{color:'#fff',fontSize:'20px'}}><i class="bi bi-clipboard-data-fill" style={{color:'#fff',fontSize:'30px'}}/>
-              </Nav.Link>
-              {/* <Nav.Link><i class="bi bi-facebook" style={{color:'#fff',fontSize:'30px'}}></i></Nav.Link> */}
+              &nbsp;</Nav.Link>
+
+              {/* <Nav.Link><i class="bi bi-facebook" style={{color:'#fff',fontSize:'25px'}}/></Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Container>
         
       </Navbar>
-      <Report/>
+      <BinManage/>
       <GoogleMap 
       zoom={18} 
-      center={center} 
+      center={focus} 
       mapContainerStyle={{height: '83vh', width: `100vw`}}
       options={{
         zoomControl: false,
-        streetViewControl: false  ,
+        streetViewControl: true,
         mapTypeControl: false,
         fullscreenControl: false
       }} 
@@ -261,17 +282,17 @@ const MapScreen = () => {
         ><i class="bi bi-zoom-in" style={{color:'#fff',fontSize:'25px'}}></i></button>
 
         <button type="button" class="btn btn-light dashboard-nav" style={{color:'#fff',fontSize:'20px'}}
-        onClick={()=>map.panTo(center)}
+        onClick={()=>map.panTo(focus)}
         ><i class="bi bi-geo-alt-fill" style={{color:'#fff',fontSize:'25px'}}></i> </button>
 
         <button type="button" class="btn btn-light dashboard-nav" style={{color:'#fff',fontSize:'20px'}}
-        onClick={()=>{map.setZoom(18);
+         onClick={()=>{map.setZoom(18)
         }}
         ><i class="bi bi-zoom-out" style={{color:'#fff',fontSize:'25px'}}></i></button>
         
         <button type="button" class="btn btn-light dashboard-nav" style={{color:'#fff',fontSize:'20px'}}
         onClick={handleshowOffCanvasRight}
-        ><i class="bi bi-megaphone-fill" style={{color:'#fff',fontSize:'25px'}}></i> </button>
+        ><i class="bi bi-trash-fill" style={{color:'#fff',fontSize:'25px'}}></i> </button>
       </div>
 
 
@@ -279,4 +300,4 @@ const MapScreen = () => {
   );
 };
 
-export default MapScreen;
+export default AdminMapScreen;

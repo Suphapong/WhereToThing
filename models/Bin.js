@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const ReportSchema = new mongoose.Schema({
+const BinSchema = new mongoose.Schema({
     date:{
         type:String,
         default:Date
@@ -10,29 +10,21 @@ const ReportSchema = new mongoose.Schema({
         type: String,
         required: [true]
     },
-    topic: {
+    lat: {
         type: String,
         required: [true]
     },
-    writer: {
-        type: String,
-        required: [true]
-    },
-    description: {
+    long: {
         type: String,
         required: [true]
     },
     location: {
         type: String,
     },
-    status: {
+    schedule: {
         type: String,
-    },
-    position: {
-        type: Object,
-    },
-
+    }
 });
 
-const ReportData = mongoose.model("ReportData",ReportSchema);
-module.exports = ReportData;
+const BinData = mongoose.model("BinData",BinSchema);
+module.exports = BinData;

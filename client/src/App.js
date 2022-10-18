@@ -19,6 +19,9 @@ import NotFound from './components/screens/pathFail';
 import TestScreen from './components/screens/TestScreen';
 import MapScreen from './components/maps/MapScreen';
 
+import AdminMapScreen from './components/maps/AdminMapScreen';
+import AdminStatusScreen from './components/maps/AdminStatusScreen';
+
 
 const App = () => {
   return (
@@ -40,6 +43,9 @@ const App = () => {
 
           <Route exact path="/p" element={<TestScreen/>}/>
           <Route exact path="/map" element={<MapScreen/>}/>
+
+          <Route exact path="/admin/map" element={<AdminMapScreen/>}/>
+          <Route exact path="/admin/status" element={<AdminStatusScreen/>}/>
 
 
         </Routes>

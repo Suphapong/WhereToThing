@@ -19,10 +19,10 @@ import {Offcanvas, Form, Button, Accordion, Badge, Stack} from 'react-bootstrap'
 
   const timeOptions = {weekday:'long',day: 'numeric',month: 'short',year: 'numeric',hour:'numeric',minute:'numeric',timeZone:'Asia/Jakarta',timeZoneName:'short'};
 
-export default function Notification({ name, ...props }) {
+export default function Notification({ name, callback, ...props }) {
   const [refresh, setRefresh] = useState(false);
   const [error, setError] = useState("");
-  const [reportData, setReportData] = useState([{}]);
+  const [reportData, setReportData] = useState([]);
 
   const fetchReportData = async () => {
     try {
@@ -35,15 +35,7 @@ export default function Notification({ name, ...props }) {
   }
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   console.log('This will be called every 2 seconds');
-    //    fetchReportData();
-    // }, 1000);
-
-    //return () => clearInterval(interval);
-   
     fetchReportData();
-    
   }, [refresh]);
 
   const AccordionItem = (props) => {
@@ -58,20 +50,30 @@ export default function Notification({ name, ...props }) {
       <Accordion.Item eventKey={index} style={{width:'100%'}}>
         <Accordion.Header>
         <Stack direction="horizontal" gap={3}>
+          <img width={bin.type !== "general" ? 40 : 70} height="50" 
+          src={bin.type !== "general" ? require(`./binicon/binpng/${bin.type}.png`) : require(`./binicon/binpng/applogo.png`)}/>
           <Form.Label htmlFor="topic" className='me-auto fw-bold text-white'> {bin.topic}</Form.Label>
-          <Badge bg={bin.status === true ? "success" : "danger"} >
-            {bin.status === true ? "สำเร็จ" : "รอการเเก้ปัญหา"} 
+          <Badge bg={bin.status === '3' ? "success" : bin.status === '2' ? "warning" : "danger"} >
+            {bin.status === '3' ? "สำเร็จ" : bin.status === '2' ? "กำลังดำเนินการ" : "ยังไม่ได้เเก้ปัญหา"}
           </Badge>
         </Stack>  
         </Accordion.Header>
         <Accordion.Body>
-          <Form.Label htmlFor="topic" className='fw-bold'>หัวข้อ: {bin.topic}</Form.Label><br/>
+          <Form.Label htmlFor="topic" className='fw-bold'>หัวข้อ: {bin.topic} </Form.Label><br/>
+          <Form.Label htmlFor="type" className=''>ID: {bin._id}</Form.Label><br/>
           <Form.Label htmlFor="type" className=''>ประเภทปัญหา: {bin.type}</Form.Label><br/>
           <Form.Label htmlFor="location" className=''>สถานที่ @ {bin.location !== "none" ? bin.location : "ไม่มี"}</Form.Label><br/>
           <Form.Label htmlFor="description" className=''>รายละเอียด: {bin.description}</Form.Label><br/>
-          <Form.Label htmlFor="status" style={{color: bin.status === true ? "green" : "red"}}>
-            สถานะ: {bin.status === true ? "สำเร็จ" : "ยังไม่ได้เเก้ปัญหา"}
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+          <Form.Label htmlFor="status" className='fw-bold' style={{color: bin.status === '3' ? "green" : bin.status === '2' ? "warning" : "red"}}>
+            สถานะ: {bin.status === '3' ? "สำเร็จ" : bin.status === '2' ? "กำลังดำเนินการ" : "ยังไม่ได้เเก้ปัญหา"}
           </Form.Label>
+          
+          {bin.type !== "general" ? <Button variant="success" style={{width:'auto'}} 
+            onClick={(e)=>callback !== null ? callback(bin.position):window.location='/admin/map'}
+          > <i class="bi bi-geo-alt-fill" style={{color:'#fff',fontSize:'25px'}}></i>
+          </Button>:<></>}
+          </div>
         </Accordion.Body>
       </Accordion.Item>
       <div style={{display:'flex',flexDirection:'row',justifyContent:'end',alignItems:'end'}}>
@@ -86,8 +88,6 @@ export default function Notification({ name, ...props }) {
     return(
       <Accordion>
         {reportData.map((bin,index) => {
-          //console.log("bin :",bin)
-          //console.log("index :",index)
           return(
             <AccordionItem bin={bin} index={index}/>
             )
@@ -123,7 +123,8 @@ export default function Notification({ name, ...props }) {
       <br/>
       <Form.Label htmlFor="headertopic" className='fw-bold'>การเเจ้งเตือนปัญหา:</Form.Label>
       <br/>
-      <AccordionBin/>
+      {reportData.length <= 0  ?  <h5>กรุณากดปุ่ม "Refresh" เพื่อดึงข้อมูลล่าสุด</h5>:
+      <AccordionBin/>}
       
       
     </Offcanvas.Body>

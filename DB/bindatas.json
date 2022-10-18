@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "634998bfe3bde46bfe1e6adb"
+  },
+  "date": "1665767615890",
+  "type": "suphapong.b@ku.th",
+  "lat": "suphapong.b@ku.th",
+  "long": "suphapong.b@ku.th",
+  "location": "suphapong.b@ku.th",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6349a255fd722618fd73f33d"
+  },
+  "date": "1665770069044",
+  "type": "A1",
+  "lat": "13.118245685251873",
+  "long": "100.92160354728831",
+  "location": "บ้าน",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6349a335ce307fac01ae0578"
+  },
+  "date": "1665770293611",
+  "type": "B2",
+  "lat": "13.118245685251873",
+  "long": "100.92160354728831",
+  "location": "โรงเย็น",
+  "__v": 0
+}]

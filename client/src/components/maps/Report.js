@@ -33,11 +33,14 @@ export default function Report({ name, ...props }) {
         writer,
         description,
         location: 'none',
-        status
       })
         .then(res => {
-           console.log(res)
-            //navigate("/login")
+          console.log(res)
+          setTopic("")
+          setWriter("")
+          setDescription("")
+          alert("เเจ้งปัญหาได้สำเร็จ")
+          //navigate("/login")
         })
         .catch((error) => {
         console.log(error);
@@ -74,7 +77,7 @@ export default function Report({ name, ...props }) {
       <Form.Control type="text" placeholder="ชื่อเล่น..." value={writer} onChange={(e)=>setWriter(e.target.value)} required/>
       <br/>
       <Form.Label htmlFor="description" className='fw-bold'>รายละอียด:</Form.Label>
-      <Form.Control as="textarea" rows={8} placeholder="อธิบายลานละเอียด..." value={description} onChange={(e)=>setDescription(e.target.value)} required/>
+      <Form.Control as="textarea" rows={8} placeholder="อธิบายลายละเอียด..." value={description} onChange={(e)=>setDescription(e.target.value)} required/>
       <br/>
       <Button variant="light" className="dashboard-nav2 text-white"
       onClick={()=>{sendSubmit()}}
