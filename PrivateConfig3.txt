@@ -1,8 +1,0 @@
-http://localhost:3000/login
-
-zxohm2542@gmail.com
-!!22QQwwEErr!!22QQwwEErr
-
-use where_to_thing
-'switched to db where_to_thing'
-db.reportdatas.deleteMany({})
